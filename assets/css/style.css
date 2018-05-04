@@ -1,0 +1,27 @@
+body{
+    /* background-color: rgb(177, 214, 103); */
+}
+h1{
+    text-align: center;
+    
+}
+#start{
+    margin-left: 538px;
+    margin-top: 150px;
+    width: 220px;
+    height: 61px;
+}
+.hide {
+    display: none;
+}
+.container{
+    margin: auto 0;
+}
+.btn {
+    display: block;
+    width: 100%;
+}
+.btn:hover,
+.selected {
+    background-color: pink;
+}
