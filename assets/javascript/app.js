@@ -110,131 +110,130 @@ $(document).ready(function () {
 
             }
         }, 1000);
+    }
+
+
+    // get selected value check if it right or wrong
+    $(document).on("click", ".option", function () {
+
+        console.log("clicked");
+        // question number – button group number 
+        var selectedBtnGroup = $(this).data("group");
+        $("button[data-group='" + selectedBtnGroup + "']").removeClass("selected");
+        $(this).addClass("selected");
+
+
+        // console.log(userAnswer)
+        // console.log(questionList[gameData.count].a)
+        // // console.log(questionList[gameData.count])
+        // console.log(gameData.count)
+        evaluateAnswer();
+
+
+    })
+
+
+    function evaluateAnswer() {
+        var userAnswer = $(".selected").text();
+        if (userAnswer === questionList[gameData.count].a) {
+            // user got it right
+            console.log("yay! Correct");
+            gameData.count++;
+            gameData.correctAnswer++
+            displayQuestion();
+
+        }
+        else {
+            console.log("oh no")
+            gameData.count++;
+            gameData.inCorrectAnswer++
+            displayQuestion();
+        }
+    }
+
+    function displayQuestion() {
+        console.log(gameData.count < questionList.length);
+        if (gameData.count <= questionList.length) {
+            clearInterval(gameData.timer);
+            startTimer();
+            $("#container").empty();
+            
+            var currentQuestion = questionList[gameData.count];
+
+            var $wrapper = $("<div>");
+            $wrapper.addClass("q-wrap");
+
+            var $question = $("<h4>");
+            $question.text(currentQuestion.q);
+            $($wrapper).append($question);
+
+            // handle options 
+            currentQuestion.opts.forEach(function (opt) {
+
+                var $optionButton = $("<button>");
+                $optionButton.addClass("btn btn-primary option");
+                $optionButton.attr("data-group", gameData.count);
+
+                $optionButton.text(opt);
+
+                $($wrapper).append($optionButton);
+            });
+
+            $("#container").append($wrapper);
+        }
+
+    }
     
 
-
-// get selected value check if it right or wrong
-$(document).on("click", ".option", function () {
-
-    console.log("clicked");
-    // question number – button group number 
-    var selectedBtnGroup = $(this).data("group");
-    $("button[data-group='" + selectedBtnGroup + "']").removeClass("selected");
-    $(this).addClass("selected");
+    //create a function to setup the game
+    function setupGame() {
+        gameData.correctAnswer = 0;
+        gameData.inCorrectAnswer = 0; 
+        gameData.unAswered = 0;
+        gameData.count = 0
+    }
 
 
-    // console.log(userAnswer)
-    // console.log(questionList[gameData.count].a)
-    // // console.log(questionList[gameData.count])
-    // console.log(gameData.count)
-    evaluateAnswer();
+    // //create a function to play the game
+    // function playGame() {
+    //     
 
+    //     //if the count was less than or equal to length of questionlist
+    //     if (gameData.count <= questionList.length - 1) {
+    //         var currentQuestion = questionList[gameData.count].q
+    //         //display the current question in the html and changing the text to the current qustion?????
+
+    //         //show the options for answers
+
+    //         //create click to answer Q
+
+    //         //if/else statement for correct, incorrect and time up conditions
+    //         //if the answer was wrong:
+
+    //         //incorrect answer++, 
+    //         //shows the result(correct answer) in the next slide, 
+    //         //wait 5 seconds, then go to next slide(question) 
+    //         //if the answer was correct:
+
+    //         //correct answer++, 
+    //         //shows the result(correct answer) in the next slide, 
+    //         //wait 5 seconds, then go to next slide(question) 
+
+    //         //else/ no answer
+    //         //unanswered++, 
+    //         //shows the result(correct answer) in the next slide, 
+    //         //wait 5 seconds, then go to next slide(question)
+
+    //     } else {
+    //         //stop the timer
+    //         //all done.on the screen 
+    //         //here is your result on the screen
+    //         //do u wanna start over?
+    //     }
+
+    //     setupGame();
+    // }
+
+    // playGame();
 
 });
-
-
-function evaluateAnswer() {
-    var userAnswer = $(".selected").text();
-    if (userAnswer === questionList[gameData.count].a) {
-        // user got it right
-        console.log("yay! Correct");
-        gameData.count++;
-        gameData.correctAnswer++
-        displayQuestion();
-
-    }
-    else {
-        console.log("oh no")
-        gameData.count++;
-        gameData.inCorrectAnswer++
-        displayQuestion();
-    }
-}
-
-function displayQuestion() {
-    console.log(gameData.count < questionList.length);
-    if (gameData.count <= questionList.length) {
-        clearInterval(gameData.timer);
-        startTimer();
-        $("#container").empty();
-        var currentQuestion = questionList[gameData.count].q
-        console.log(currentQuestion);
-        //var currentQuestion = questionList[gameData.count];
-
-        //     var $wrapper = $("<div>");
-        //     $wrapper.addClass("q-wrap");
-
-        //     var $question = $("<h4>");
-        //     $question.text(currentQuestion.q);
-        //     $($wrapper).append($question);
-
-        //     // handle options 
-        //     currentQuestion.opts.forEach(function (opt) {
-
-        //         var $optionButton = $("<button>");
-        //         $optionButton.addClass("btn btn-primary option");
-        //         $optionButton.attr("data-group", gameData.count);
-
-        //         $optionButton.text(opt);
-
-        //         $($wrapper).append($optionButton);
-        //     });
-
-        //     $("#container").append($wrapper);
-    }
-
-}
-
-
-//create a function to setup the game
-function setupGame() {
-    gameData.correctAnswer = 0;
-    gameData.inCorrectAnswer = 0;
-    gameData.unAswered = 0;
-    gameData.count = 0
-}
-
-
-        // //create a function to play the game
-        // function playGame() {
-        //     
-
-        //     //if the count was less than or equal to length of questionlist
-        //     if (gameData.count <= questionList.length - 1) {
-        //         var currentQuestion = questionList[gameData.count].q
-        //         //display the current question in the html and changing the text to the current qustion?????
-
-        //         //show the options for answers
-
-        //         //create click to answer Q
-
-        //         //if/else statement for correct, incorrect and time up conditions
-        //         //if the answer was wrong:
-
-        //         //incorrect answer++, 
-        //         //shows the result(correct answer) in the next slide, 
-        //         //wait 5 seconds, then go to next slide(question) 
-        //         //if the answer was correct:
-
-        //         //correct answer++, 
-        //         //shows the result(correct answer) in the next slide, 
-        //         //wait 5 seconds, then go to next slide(question) 
-
-        //         //else/ no answer
-        //         //unanswered++, 
-        //         //shows the result(correct answer) in the next slide, 
-        //         //wait 5 seconds, then go to next slide(question)
-
-        //     } else {
-        //         //stop the timer
-        //         //all done.on the screen 
-        //         //here is your result on the screen
-        //         //do u wanna start over?
-        //     }
-
-        //     setupGame();
-        // }
-
-        // playGame();
-
-    });
